@@ -69,9 +69,9 @@ This continues my earlier work on measuring how AI outputs drift from their inst
 
 ## My decisions
 
-- Why I chose value / growth / momentum as lenses: I chose the styles that I believe get the most attention today. In my view, value, growth, and momentum are the approaches that attract the most interest and focus from people. I also chose them because the three styles are different from each other.]
-- Why I used fictional companies instead of real ones: I wanted to use real companies, but I started with fictional ones so that I could verify the method before applying it to real data. Also, if I used real companies, people might actually believe the positive or negative results and make decisions based on them, so I chose fictional data.]
-- Why I added the control rerun and what it changed in how I read the results: When I found out that an AI can make different decisions for the same input, it felt like a new discovery. I had assumed that an AI gives a consistent value from repeated data, so it felt fascinating that the same input could produce different answers. I kept checking how often these changes happened, and I did not count a change in decision as an effect of the debate unless it was larger than the difference I saw when re-asking with the same input
+- Why I chose value / growth / momentum as lenses: I chose the styles that I believe get the most attention today. In my view, value, growth, and momentum are the approaches that attract the most interest and focus from people. I also chose them because the three styles are different from each other.
+- Why I used fictional companies instead of real ones: I wanted to use real companies, but I started with fictional ones so that I could verify the method before applying it to real data. Also, if I used real companies, people might actually believe the positive or negative results and make decisions based on them, so I chose fictional data.
+- Why I added the control rerun and what it changed in how I read the results: When I found out that an AI can make different decisions for the same input, it felt like a new discovery. I had assumed that an AI gives a consistent value from repeated data, so it felt fascinating that the same input could produce different answers. I kept checking how often these changes happened, and I did not count a change in decision as an effect of the debate unless it was larger than the difference I saw when re-asking with the same input.
 
 ## How to reproduce
 
