@@ -117,10 +117,10 @@ Setup: fictional companies with a hidden rule that I wrote (cash runway under 12
   
 
 ### My decisions (v3 and v3b)
-- Why I chose this question: (I am mainly interested in whether AI produces better answers by passing work through stages. But if information disappears along the way, couldn't it get worse? That curiosity is why I chose this question.)
-- What I did when v3 did not work: (I expected v3 to turn out as I predicted, but it did not, and when I compared it with the control group I realized my first reading was wrong. I decided that removing the HOLD option was necessary for a clear check, so I redesigned the experiment that way.)
-- What I did when Check 1 failed: (The result did not pass the criterion I had set in advance, so I could not interpret the main result and did not. I also did not run the next step, because it depends on passing Check 1. I did not change the rule after seeing the result.)
-- What I learned: (I think I realized two things from these experiments. First, the AI behaved the way I had imagined: it is often inconsistent. I saw that the same input can give different answers. Second, connected to this, I had trusted the AI because it tries to give the best answer in each situation, but I came to think that I should not trust a result right away just because I see it.)
+- Why I chose this question: I am mainly interested in whether AI produces better answers by passing work through stages. But if information disappears along the way, couldn't it get worse? That curiosity is why I chose this question.
+- What I did when v3 did not work: I expected v3 to turn out as I predicted, but it did not, and when I compared it with the control group I realized my first reading was wrong. I decided that removing the HOLD option was necessary for a clear check, so I redesigned the experiment that way.
+- What I did when Check 1 failed: The result did not pass the criterion I had set in advance, so I could not interpret the main result and did not. I also did not run the next step, because it depends on passing Check 1. I did not change the rule after seeing the result.
+- What I learned: I think I realized two things from these experiments. First, the AI behaved the way I had imagined: it is often inconsistent. I saw that the same input can give different answers. Second, connected to this, I had trusted the AI because it tries to give the best answer in each situation, but I came to think that I should not trust a result right away just because I see it.
 
 ### Files
 - `hidden_rule/gen_world.py`, `run_world.py`, `score_world.py`: v3 (results in `hidden_rule/world_A/`)
