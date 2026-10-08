@@ -126,7 +126,7 @@ Setup: fictional companies with a hidden rule that I wrote (cash runway under 12
 - Cost: about $0.45 per full run.
   
 
-### My decisions (v3 and v3b)
+### My decisions (v3, v3b and v3c)
 - Why I chose this question: I am mainly interested in whether AI produces better answers by passing work through stages. But if information disappears along the way, couldn't it get worse? That curiosity is why I chose this question.
 - What I did when v3 did not work: I expected v3 to turn out as I predicted, but it did not, and when I compared it with the control group I realized my first reading was wrong. I decided that removing the HOLD option was necessary for a clear check, so I redesigned the experiment that way.
 - What I did when Check 1 failed: The result did not pass the criterion I had set in advance, so I could not interpret the main result and did not. I also did not run the next step, because it depends on passing Check 1. I did not change the rule after seeing the result.
@@ -135,4 +135,5 @@ Setup: fictional companies with a hidden rule that I wrote (cash runway under 12
 ### Files
 - `hidden_rule/gen_world.py`, `run_world.py`, `score_world.py`: v3 (results in `hidden_rule/world_A/`)
 - `hidden_rule/gen_a2.py`, `run_forced.py`, `score_forced.py`: v3b (results in `hidden_rule/world_A2/`)
-- Pre-registrations: `hidden_rule/PREREGISTRATION.md`, `hidden_rule/PREREGISTRATION_v3b.md`
+- `hidden_rule/gen_a3.py`, `run_forced.py` (with `--world`), `score_forced.py` (with `--world --two-sided --pilot`): v3c (results in `hidden_rule/world_A3/` and the pilot in `hidden_rule/world_A3_pilot/`)
+- Pre-registrations: `hidden_rule/PREREGISTRATION.md`, `hidden_rule/PREREGISTRATION_v3b.md`, `hidden_rule/PREREGISTRATION_v3c.md`
