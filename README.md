@@ -95,7 +95,7 @@ Scripts read and write relative to the working directory or your home folder. Th
 
 Question: when a pipeline of AI stages passes work along (three analyst lenses, a trader, a bull/bear debate, a final trader), does information get lost on the way?
 
-Setup: fictional companies with a hidden rule that I wrote (cash runway under 12 months means DOWN, otherwise fast growth means UP; 10% of labels flipped as noise). "Traps" are companies that look good (high growth, low PER) but have short cash runway. If the warning is lost between stages, the final trader should catch fewer traps than the first one. Rules and thresholds were committed before running (see `PREREGISTRATION.md` and `PREREGISTRATION_v3b.md`; the commit time is the record). I did not change any rule after seeing results.
+Setup: fictional companies with a hidden rule that I wrote (cash runway under 12 months means DOWN, otherwise fast growth means UP; 10% of labels flipped as noise in v3 and v3b, none in v3c, where the rule uses cash only). "Traps" are companies that look good (high growth, low PER) but have short cash runway. If the warning is lost between stages, the final trader should catch fewer traps than the first one. Rules and thresholds were committed before running (see `PREREGISTRATION.md`, `PREREGISTRATION_v3b.md` and `PREREGISTRATION_v3c.md`; the commit time is the record). I did not change any rule after seeing results.
 
 ### v3 (World A, HOLD allowed)
 - 200 companies, 66 traps. Primary: share of traps where the verdict is not BUY, final trader vs first trader, threshold +15 pp.
@@ -131,6 +131,8 @@ Setup: fictional companies with a hidden rule that I wrote (cash runway under 12
 - What I did when v3 did not work: I expected v3 to turn out as I predicted, but it did not, and when I compared it with the control group I realized my first reading was wrong. I decided that removing the HOLD option was necessary for a clear check, so I redesigned the experiment that way.
 - What I did when Check 1 failed: The result did not pass the criterion I had set in advance, so I could not interpret the main result and did not. I also did not run the next step, because it depends on passing Check 1. I did not change the rule after seeing the result.
 - What I learned: I think I realized two things from these experiments. First, the AI behaved the way I had imagined: it is often inconsistent. I saw that the same input can give different answers. Second, connected to this, I had trusted the AI because it tries to give the best answer in each situation, but I came to think that I should not trust a result right away just because I see it.
+- Why I decided to run v3c: So far, several problems meant that I had not yet gotten a usable answer. I still wanted an answer: can a debate lead to a better answer, or does it get worse when information disappears? Even though the result did not come out as I expected, I wanted to keep trying and I think it was meaningful.
+- What I decided after v3c: B (no effect) is also part of the result. I accept that getting the result I wanted is not easy. I may design a new setup and run another experiment.
 
 ### Files
 - `hidden_rule/gen_world.py`, `run_world.py`, `score_world.py`: v3 (results in `hidden_rule/world_A/`)
