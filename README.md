@@ -89,3 +89,40 @@ cd ~/v2 && python3 ~/check_quotes.py && python3 ~/score_debate.py
 
 
 Scripts read and write relative to the working directory or your home folder. The results from my run are in `results_v3/` (original debate) and `v2/results_v3/` (v2 debate). Use `python3 view_company.py <name>` to read one company's full chain.
+
+
+## Hidden-rule experiments (v3 and v3b)
+
+Question: when a pipeline of AI stages passes work along (three analyst lenses, a trader, a bull/bear debate, a final trader), does information get lost on the way?
+
+Setup: fictional companies with a hidden rule that I wrote (cash runway under 12 months means DOWN, otherwise fast growth means UP; 10% of labels flipped as noise). "Traps" are companies that look good (high growth, low PER) but have short cash runway. If the warning is lost between stages, the final trader should catch fewer traps than the first one. Rules and thresholds were committed before running (see `PREREGISTRATION.md` and `PREREGISTRATION_v3b.md`; the commit time is the record). I did not change any rule after seeing results.
+
+### v3 (World A, HOLD allowed)
+- 200 companies, 66 traps. Primary: share of traps where the verdict is not BUY, final trader vs first trader, threshold +15 pp.
+- Result: no effect detected.
+- Problems I found afterwards (my design mistakes): (1) allowing HOLD made "not BUY" almost the same as "defaulting to HOLD", so it did not show that the warning was used; I first read this result wrongly and retracted it after checking the control group; (2) there was little room to improve; (3) the model barely used the hidden signal.
+
+### v3b (World A2, forced UP/DOWN)
+- Fix: the model must choose UP or DOWN, and there is a control group (same growth and PER, cash runway 12 months or more): 200 companies, 61 traps, 68 controls.
+- Pre-registered precondition (Check 1): the value lens must say DOWN at least 20 pp more often on traps than on controls, with the 95% interval above 0. Otherwise the world did not test information loss and the main result must not be interpreted.
+- Result: Check 1 not passed. Difference +13.8 pp (95% CI -1.7 to +28.9). So the main result is reported for reference only and is not interpreted. The strict-lens step was not run, as pre-registered.
+- Noise: asking the final trader the same question again gave a trap/control gap of +20 pp (95% CI +2.6 to +35.9) by sampling alone. Accuracy at every stage was 49-58%, close to the 52% you get by always guessing UP.
+- Before the full run I ran a 5-company smoke test and did not look at its results.
+
+### What I take from this
+- I did not get an answer to the question. Neither experiment could show information loss, and neither could rule it out.
+- What I learned is about the measurement: sampling noise at this sample size is as large as the effect I was looking for, and a weak signal makes the whole experiment uninterpretable. The pre-registered precondition stopped me from reading noise as a result.
+- Limits: fictional data, one model (gpt-4o-mini), one run per condition, one rule. This says nothing about real markets.
+- Cost: about $0.45 per full run.
+  
+
+### My decisions (v3 and v3b)
+- Why I chose this question: (I am mainly interested in whether AI produces better answers by passing work through stages. But if information disappears along the way, couldn't it get worse? That curiosity is why I chose this question.)
+- What I did when v3 did not work: (I expected v3 to turn out as I predicted, but it did not, and when I compared it with the control group I realized my first reading was wrong. I decided that removing the HOLD option was necessary for a clear check, so I redesigned the experiment that way.)
+- What I did when Check 1 failed: (The result did not pass the criterion I had set in advance, so I could not interpret the main result and did not. I also did not run the next step, because it depends on passing Check 1. I did not change the rule after seeing the result.)
+- What I learned: (I think I realized two things from these experiments. First, the AI behaved the way I had imagined: it is often inconsistent. I saw that the same input can give different answers. Second, connected to this, I had trusted the AI because it tries to give the best answer in each situation, but I came to think that I should not trust a result right away just because I see it.)
+
+### Files
+- `hidden_rule/gen_world.py`, `run_world.py`, `score_world.py`: v3 (results in `hidden_rule/world_A/`)
+- `hidden_rule/gen_a2.py`, `run_forced.py`, `score_forced.py`: v3b (results in `hidden_rule/world_A2/`)
+- Pre-registrations: `hidden_rule/PREREGISTRATION.md`, `hidden_rule/PREREGISTRATION_v3b.md`
