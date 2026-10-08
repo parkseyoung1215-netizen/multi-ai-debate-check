@@ -91,7 +91,7 @@ cd ~/v2 && python3 ~/check_quotes.py && python3 ~/score_debate.py
 Scripts read and write relative to the working directory or your home folder. The results from my run are in `results_v3/` (original debate) and `v2/results_v3/` (v2 debate). Use `python3 view_company.py <name>` to read one company's full chain.
 
 
-## Hidden-rule experiments (v3 and v3b)
+## Hidden-rule experiments (v3, v3b and v3c)
 
 Question: when a pipeline of AI stages passes work along (three analyst lenses, a trader, a bull/bear debate, a final trader), does information get lost on the way?
 
@@ -109,8 +109,18 @@ Setup: fictional companies with a hidden rule that I wrote (cash runway under 12
 - Noise: asking the final trader the same question again gave a trap/control gap of +20 pp (95% CI +2.6 to +35.9) by sampling alone. Accuracy at every stage was 49-58%, close to the 52% you get by always guessing UP.
 - Before the full run I ran a 5-company smoke test and did not look at its results.
 
+
+### v3c (World A3, stronger signal)
+- Changes from v3b (pre-registered in `PREREGISTRATION_v3c.md`, committed before any v3c run): the rule uses cash only (cash < 12 months means DOWN); traps have 1-6 months of cash and controls 24-48; 100 traps and 100 controls; the decision rule is two-sided (it can also detect a drop); a 30-company pilot had to show the value lens uses the cash signal (at least +25 pp) before the main run.
+- Pilot: value lens difference +33.3 pp, gate passed (15 + 15 companies, not used in the main analysis).
+- Check 1 passed: value lens DOWN on 87% of traps vs 66% of controls, +21.0 pp (95% CI +9.0 to +31.0). The margin is small.
+- Primary result: no effect detected. The final trader caught 57% of traps vs 60% for the first trader, -3.0 pp (95% CI -12.0 to +6.0), within noise (+1.0 pp). This does not prove there is no loss: a drop of up to about 12 pp cannot be excluded.
+- The debate changed 13 of 60 trap verdicts the first trader got right; re-asking the final trader with the same input changed 12. The debate step looks like sampling noise here.
+- Not pre-registered, descriptive only: the value lens said DOWN on 87% of traps, the first trader on 60%; for 27 of the 87 traps the lens warned and the trader said UP. If a warning is lost, this lens-to-trader step is a candidate, but the value lens also says DOWN on 66% of controls, so I do not draw a conclusion from it.
+- Cost: pilot $0.07, main run $0.45.
+
 ### What I take from this
-- I did not get an answer to the question. Neither experiment could show information loss, and neither could rule it out.
+- v3 and v3b could not answer the question. v3c was the first valid test, and it found no effect between the first trader and the final trader (final minus first: -3.0 pp, 95% CI -12.0 to +6.0).
 - What I learned is about the measurement: sampling noise at this sample size is as large as the effect I was looking for, and a weak signal makes the whole experiment uninterpretable. The pre-registered precondition stopped me from reading noise as a result.
 - Limits: fictional data, one model (gpt-4o-mini), one run per condition, one rule. This says nothing about real markets.
 - Cost: about $0.45 per full run.
