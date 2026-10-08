@@ -46,4 +46,4 @@ The v3 results stay in `world_A/` unchanged.
 
 ## Changes
 
-(none yet)
+- Clarification, written before any run: the generator makes 60 traps, 60 controls and 80 random companies, but some random companies also meet the conditions. The analysis uses every company that meets the conditions (traps: growth > 20, per < 20, cash < 12; controls: growth > 20, per < 20, cash >= 12), so the group sizes are slightly above 60. The counts are printed when the companies are generated.
