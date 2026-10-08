@@ -40,4 +40,5 @@ When AI roles pass work through several stages (lenses -> trader -> bull/bear de
 
 ## Changes
 
-(none yet)
+- Clarification, written before any run: "larger than the same difference measured with the control rerun" means the debate effect (trader_final minus trader_pre, or trader_final minus solo in worlds B and C) must be larger than |trader_final minus trader_final_rerun| on the same outcome, which is the difference from sampling alone. I also report trader_final_rerun minus trader_pre as a replication of the effect.
+- Clarification, written before any run: I also report the share of UP labels and the accuracy of always predicting the majority label, as context. The primary outcomes and thresholds are unchanged.
