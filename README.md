@@ -5,6 +5,16 @@ Measuring number accuracy and decision changes in a multi-AI debate pipeline, us
 
 > This is not investment advice and does not measure investment performance. All companies and numbers are fictional.
 
+## Summary
+
+- **What I tested:** whether a pipeline of AI roles (three lenses, a trader, a bull/bear debate, a final trader) keeps or loses information, using fictional companies.
+- **What I found:**
+  - The original debate prompt made round 2 mostly repeat round 1 (similarity 0.75 and 0.71). A prompt asking for a specific rebuttal cut repetition to 0.19 and 0.24, but did not change decisions beyond noise.
+  - The same input gives a different decision between runs (re-asking gave the same verdict for 83% of companies), so a same-input rerun is needed as a control.
+  - In the one valid test of the hidden-rule experiment (v3c), the final trader caught 57% of the traps and the first trader 60% (difference -3.0 pp, 95% CI -12.0 to +6.0): no effect detected.
+- **How I tested:** pre-registered rules, control groups, a same-input rerun to measure noise, and a pilot gate. Two of my three hidden-rule attempts (v3, v3b) could not be interpreted and are reported as such.
+- **Limits:** fictional data, one model, one run per condition. Nothing here says how this works on real markets.
+
 ## Question
 
 When several AI "roles" pass work to each other (investor lenses -> trader -> bull/bear debate -> trader), what happens to (1) the numbers they cite and (2) the final decision?
