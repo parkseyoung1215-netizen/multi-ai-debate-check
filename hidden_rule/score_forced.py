@@ -4,9 +4,12 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 ap = argparse.ArgumentParser()
 ap.add_argument("--temp", type=float, default=0.7)
+ap.add_argument("--world", default="world_A2", help="folder with the runs")
+ap.add_argument("--two-sided", action="store_true", help="v3c rule: also detect a DROP in trap catching")
+ap.add_argument("--pilot", action="store_true", help="v3c pilot gate only")
 ap.add_argument("--compare-strict", action="store_true", help="compare strict-lens run with the shared run")
 args = ap.parse_args()
-wdir = os.path.join(HERE, "world_A2")
+wdir = os.path.join(HERE, args.world)
 STAGES = ["solo", "lens_value", "lens_growth", "lens_momentum", "trader_pre", "trader_final", "trader_final_rerun"]
 CODE = {"UP": 1, "DOWN": -1}
 rng = np.random.default_rng(0)
@@ -52,13 +55,24 @@ runs = load()
 n = len(runs)
 P, L, TRAP, CTRL = arrays(runs)
 tr, ct = np.where(TRAP)[0], np.where(CTRL)[0]
-print("world A2 | forced choice | temp %g | companies: %d | traps: %d | controls: %d | UP share: %.0f%%" % (args.temp, n, len(tr), len(ct), 100 * (L == 1).mean()))
+print(args.world, "| forced choice | temp %g | companies: %d | traps: %d | controls: %d | UP share: %.0f%%" % (args.temp, n, len(tr), len(ct), 100 * (L == 1).mean()))
 print("always predicting the majority label would be right %.0f%% of the time (context, not a result)" % (100 * max((L == 1).mean(), (L == -1).mean())))
 if len(tr) < 5 or len(ct) < 5:
     sys.exit("Too few traps or controls in this run to score. Run more companies.")
 missing = {s: int((P[s] == 0).sum()) for s in STAGES}
 if any(missing.values()):
     print("missing/invalid verdicts:", missing)
+
+if args.pilot:
+    print("\n== PILOT GATE (v3c): does the value lens use the cash signal? ==")
+    for st in ["solo", "lens_value"]:
+        a = (P[st][tr] == -1).mean(); b = (P[st][ct] == -1).mean()
+        print("%-12s traps DOWN %3.0f%% | controls DOWN %3.0f%% | difference %+.1f pp" % (st, 100 * a, 100 * b, 100 * (a - b)))
+    diff = (P["lens_value"][tr] == -1).mean() - (P["lens_value"][ct] == -1).mean()
+    go = diff >= 0.25
+    print("Gate (lens_value difference >= +25 pp, point estimate only): %s" % ("GO - run the main experiment" if go else "STOP - do not run the main experiment"))
+    print("(Pilot data are not used in the main analysis. 15 + 15 companies is too small for any other conclusion.)")
+    sys.exit(0)
 
 print("\n== Accuracy per stage (no HOLD, so every company counts) ==")
 for s in STAGES:
@@ -97,11 +111,22 @@ print("\ntrader_final - trader_pre : %+.1f pp (95%% CI %+.1f to %+.1f)" % (100 *
 print("rerun - trader_pre (replication): %+.1f pp (95%% CI %+.1f to %+.1f)" % (100 * d2.mean(), 100 * lo2, 100 * hi2))
 print("trader_final - rerun (noise from sampling alone): %+.1f pp" % (100 * noise))
 ok1, ok2, ok3 = d.mean() >= 0.10, lo > 0, d.mean() > abs(noise)
-print("effect rule: (1) >= +10 pp: %s | (2) interval excludes 0 (lower %+.1f pp): %s | (3) larger than noise %.1f pp: %s" % (ok1, 100 * lo, ok2, 100 * abs(noise), ok3))
-if caught["trader_pre"].mean() >= 0.85:
-    verdict = "no room to improve (trader_pre already catches >= 85% of traps)"
+print("effect rule (improvement): (1) >= +10 pp: %s | (2) interval excludes 0 (lower %+.1f pp): %s | (3) larger than noise %.1f pp: %s" % (ok1, 100 * lo, ok2, 100 * abs(noise), ok3))
+pre = caught["trader_pre"].mean()
+if args.two_sided:
+    dn1, dn2, dn3 = d.mean() <= -0.10, hi < 0, -d.mean() > abs(noise)
+    print("effect rule (drop):        (1) <= -10 pp: %s | (2) interval excludes 0 (upper %+.1f pp): %s | (3) larger than noise: %s" % (dn1, 100 * hi, dn2, dn3))
+    if ok1 and ok2 and ok3:
+        verdict = "no room to improve (trader_pre already catches >= 85% of traps)" if pre >= 0.85 else "IMPROVEMENT found (final catches more traps than first trader)"
+    elif dn1 and dn2 and dn3:
+        verdict = "no room to fall (trader_pre catches <= 15% of traps)" if pre <= 0.15 else "INFORMATION LOSS found (final catches fewer traps than first trader)"
+    else:
+        verdict = "no effect detected (by the pre-registered rule)"
 else:
-    verdict = "effect found" if (ok1 and ok2 and ok3) else "no effect detected (by the pre-registered rule)"
+    if pre >= 0.85:
+        verdict = "no room to improve (trader_pre already catches >= 85% of traps)"
+    else:
+        verdict = "effect found" if (ok1 and ok2 and ok3) else "no effect detected (by the pre-registered rule)"
 print("=> RESULT:", verdict, "" if passed else "[NOT interpreted: Check 1 not passed]")
 
 print("\n== Secondary ==")

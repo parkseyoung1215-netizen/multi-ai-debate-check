@@ -7,6 +7,7 @@ ap.add_argument("n", nargs="?", type=int, default=200)
 ap.add_argument("--temp", type=float, default=0.7)
 ap.add_argument("--workers", type=int, default=4)
 ap.add_argument("--strict", action="store_true", help="each lens sees only its own metrics")
+ap.add_argument("--world", default="world_A2", help="folder with companies.json")
 args = ap.parse_args()
 MOCK = os.environ.get("MOCK") == "1"
 MODEL = "gpt-4o-mini"
@@ -73,7 +74,7 @@ def run_company(c):
     st["trader_final_rerun"] = call(final_sys, final_user)
     return st
 
-wdir = os.path.join(HERE, "world_A2")
+wdir = os.path.join(HERE, args.world)
 companies = json.load(open(os.path.join(wdir, "companies.json")))[:args.n]
 out_path = os.path.join(wdir, "runs_t%g%s.jsonl" % (args.temp, "_strict" if args.strict else ""))
 done = set()
@@ -84,7 +85,7 @@ if os.path.exists(out_path):
         except Exception:
             pass
 todo = [c for c in companies if c["id"] not in done]
-print("world A2 | forced choice | temp", args.temp, "| strict lenses:", args.strict, "| already done:", len(done), "| to run:", len(todo), "| mock:", MOCK)
+print(args.world, "| forced choice | temp", args.temp, "| strict lenses:", args.strict, "| already done:", len(done), "| to run:", len(todo), "| mock:", MOCK)
 
 def work(c):
     return c, run_company(c)
