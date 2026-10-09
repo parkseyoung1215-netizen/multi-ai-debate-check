@@ -11,7 +11,7 @@ Measuring number accuracy and decision changes in a multi-AI debate pipeline, us
 - **What I found:**
   - The original debate prompt made round 2 mostly repeat round 1 (similarity 0.75 and 0.71). A prompt asking for a specific rebuttal cut repetition to 0.19 and 0.24, but did not change decisions beyond noise.
   - The same input gives a different decision between runs (re-asking gave the same verdict for 83% of companies), so a same-input rerun is needed as a control.
-  - In the one valid test of the hidden-rule experiment (v3c), the final trader caught 57% of the traps and the first trader 60% (difference -3.0 pp, 95% CI -12.0 to +6.0): no effect detected.
+  - In the one valid test of the hidden-rule experiment (v3c), the final trader caught 57% of the traps and the first trader 60% (difference -3.0 pp, 95% CI -12.0 to +6.0): no effect detected. A follow-up check (v3d) showed that the measurement cannot confirm a change of around 10 pp, even when the cash information is removed completely.
 - **How I tested:** pre-registered rules, control groups, a same-input rerun to measure noise, and a pilot gate. Two of my three hidden-rule attempts (v3, v3b) could not be interpreted and are reported as such.
 - **Limits:** fictional data, one model, one run per condition. Nothing here says how this works on real markets.
 
@@ -129,6 +129,11 @@ Setup: fictional companies with a hidden rule that I wrote (cash runway under 12
 - Not pre-registered, descriptive only: the value lens said DOWN on 87% of traps, the first trader on 60%; for 27 of the 87 traps the lens warned and the trader said UP. If a warning is lost, this lens-to-trader step is a candidate, but the value lens also says DOWN on 66% of controls, so I do not draw a conclusion from it.
 - Cost: pilot $0.07, main run $0.45.
 
+### v3d (bottleneck, positive control)
+- Purpose (pre-registered in `PREREGISTRATION_v3d.md`, committed before any v3d run): v3c found no effect, but that only means something if the measurement can see a loss. Arm X removed the cash information completely (cash set to 24 months for every company) and ran the full pipeline on the same 200 companies; arm S (15-word summaries) would only run if X passed.
+- Result of X: traps caught by the final trader 57% in the normal run vs 47% without cash information, difference +10.0 pp (95% CI -1.0 to +21.0). The interval includes 0, so the pre-registered rule was not met and arm S was not run (the scripts are included but unused).
+- What this means: even removing the cash information completely changed the trap-catching rate by only about 10 pp, and with 100 traps the measurement cannot confirm a change of that size. So the "no effect" of v3c rules out large losses, but not losses of around 10 pp. Cost: $0.45.
+
 ### What I take from this
 - v3 and v3b could not answer the question. v3c was the first valid test, and it found no effect between the first trader and the final trader (final minus first: -3.0 pp, 95% CI -12.0 to +6.0).
 - What I learned is about the measurement: sampling noise at this sample size is as large as the effect I was looking for, and a weak signal makes the whole experiment uninterpretable. The pre-registered precondition stopped me from reading noise as a result.
@@ -148,4 +153,5 @@ Setup: fictional companies with a hidden rule that I wrote (cash runway under 12
 - `hidden_rule/gen_world.py`, `run_world.py`, `score_world.py`: v3 (results in `hidden_rule/world_A/`)
 - `hidden_rule/gen_a2.py`, `run_forced.py`, `score_forced.py`: v3b (results in `hidden_rule/world_A2/`)
 - `hidden_rule/gen_a3.py`, `run_forced.py` (with `--world`), `score_forced.py` (with `--world --two-sided --pilot`): v3c (results in `hidden_rule/world_A3/` and the pilot in `hidden_rule/world_A3_pilot/`)
-- Pre-registrations: `hidden_rule/PREREGISTRATION.md`, `hidden_rule/PREREGISTRATION_v3b.md`, `hidden_rule/PREREGISTRATION_v3c.md`
+- `hidden_rule/make_nocash.py`, `run_summary.py` (written, not run), `compare_bottleneck.py`: v3d (results in `hidden_rule/world_A3_nocash/`)
+- Pre-registrations: `hidden_rule/PREREGISTRATION.md`, `hidden_rule/PREREGISTRATION_v3b.md`, `hidden_rule/PREREGISTRATION_v3c.md`, `hidden_rule/PREREGISTRATION_v3d.md`
