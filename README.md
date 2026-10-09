@@ -12,7 +12,7 @@ Measuring number accuracy and decision changes in a multi-AI debate pipeline, us
   - The original debate prompt made round 2 mostly repeat round 1 (similarity 0.75 and 0.71). A prompt asking for a specific rebuttal cut repetition to 0.19 and 0.24, but did not change decisions beyond noise.
   - The same input gives a different decision between runs (re-asking gave the same verdict for 83% of companies), so a same-input rerun is needed as a control.
   - In the one valid test of the hidden-rule experiment (v3c), the final trader caught 57% of the traps and the first trader 60% (difference -3.0 pp, 95% CI -12.0 to +6.0): no effect detected. A follow-up check (v3d) showed that the measurement cannot confirm a change of around 10 pp, even when the cash information is removed completely.
-- **How I tested:** pre-registered rules, control groups, a same-input rerun to measure noise, and a pilot gate. Two of my three hidden-rule attempts (v3, v3b) could not be interpreted and are reported as such.
+- **How I tested:** pre-registered rules, control groups, a same-input rerun to measure noise, and a pilot gate. Two of my four hidden-rule attempts (v3, v3b) could not be interpreted, and v3d showed the limits of the measurement.
 - **Limits:** fictional data, one model, one run per condition. Nothing here says how this works on real markets.
 
 ## Question
@@ -101,7 +101,7 @@ cd ~/v2 && python3 ~/check_quotes.py && python3 ~/score_debate.py
 Scripts read and write relative to the working directory or your home folder. The results from my run are in `results_v3/` (original debate) and `v2/results_v3/` (v2 debate). Use `python3 view_company.py <name>` to read one company's full chain.
 
 
-## Hidden-rule experiments (v3, v3b and v3c)
+## Hidden-rule experiments (v3, v3b, v3c and v3d)
 
 Question: when a pipeline of AI stages passes work along (three analyst lenses, a trader, a bull/bear debate, a final trader), does information get lost on the way?
 
@@ -141,7 +141,7 @@ Setup: fictional companies with a hidden rule that I wrote (cash runway under 12
 - Cost: about $0.45 per full run.
   
 
-### My decisions (v3, v3b and v3c)
+### My decisions (v3, v3b, v3c and v3d)
 - Why I chose this question: I am mainly interested in whether AI produces better answers by passing work through stages. But if information disappears along the way, couldn't it get worse? That curiosity is why I chose this question.
 - What I did when v3 did not work: I expected v3 to turn out as I predicted, but it did not, and when I compared it with the control group I realized my first reading was wrong. I decided that removing the HOLD option was necessary for a clear check, so I redesigned the experiment that way.
 - What I did when Check 1 failed: The result did not pass the criterion I had set in advance, so I could not interpret the main result and did not. I also did not run the next step, because it depends on passing Check 1. I did not change the rule after seeing the result.
