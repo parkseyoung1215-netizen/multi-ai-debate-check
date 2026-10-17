@@ -140,6 +140,21 @@ Setup: fictional companies with a hidden rule that I wrote (cash runway under 12
 - Limits: fictional data, one model (gpt-4o-mini), one run per condition, one rule. This says nothing about real markets.
 - Cost: about $0.45 per full run.
   
+### Does the multi-AI pipeline do better than one AI alone? (post-hoc)
+
+This was not pre-registered. I calculated it afterwards from the v3c data, so it is for reference only. Script: `hidden_rule/compare_solo.py` (it only reads the saved v3c results and makes no API calls).
+
+| Method | Accuracy (200 companies) | vs one AI alone (95% CI) |
+|---|---|---|
+| One AI alone (solo) | 56% | - |
+| Majority vote of 3 lenses | 59% | +3.0 pp (-3.5 to +9.5) |
+| Trader before debate | 59% | +3.0 pp (-3.5 to +9.5) |
+| Trader after debate | 61% | +5.0 pp (-2.0 to +12.0) |
+
+On the 100 traps only: one AI alone 54%, majority of 3 lenses 61% (+7.0 pp, CI -2.0 to +15.0), trader after debate 57% (+3.0 pp, CI -6.0 to +12.0).
+
+All intervals include 0, so I cannot say that several AIs made better decisions than one AI here. Note that these AIs are not independent voters: they are the same model with different roles, passing work to each other.
+  
 
 ### My decisions (v3, v3b, v3c and v3d)
 - Why I chose this question: I am mainly interested in whether AI produces better answers by passing work through stages. But if information disappears along the way, couldn't it get worse? That curiosity is why I chose this question.
